@@ -7,6 +7,8 @@ import pl.wszib.memoryapi.services.CardService;
 import pl.wszib.memoryapi.web.models.CardRequest;
 import pl.wszib.memoryapi.web.models.CardResponse;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("categories/{categoryId}/cards")
 public class CardController {
@@ -22,5 +24,12 @@ public class CardController {
         CardResponse  createdCard = cardService.createCard(categoryId, request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCard);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CardResponse>> cardsList(@PathVariable Long categoryId) {
+        List<CardResponse> cards = cardService.fetchAll(categoryId);
+
+        return ResponseEntity.ok(cards);
     }
 }

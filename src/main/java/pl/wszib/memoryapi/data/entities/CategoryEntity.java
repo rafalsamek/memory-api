@@ -48,4 +48,8 @@ public class CategoryEntity {
     public void addCard(CardEntity card) {
         this.cards.add(card);
     }
+
+    public Set<CardEntity> getCards() {
+        return Set.copyOf(cards);
+    }
 }
