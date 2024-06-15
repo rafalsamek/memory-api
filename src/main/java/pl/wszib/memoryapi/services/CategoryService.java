@@ -8,6 +8,7 @@ import pl.wszib.memoryapi.web.models.CategoryResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -40,5 +41,23 @@ public class CategoryService {
                 .stream()
                 .map(CategoryResponse::new)
                 .toList();
+    }
+
+    public CategoryResponse fetchCategory(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .map(CategoryResponse::new)
+                .orElseThrow(NotFoundException::new);
+
+//
+//
+//        Optional<CategoryEntity> optional = categoryRepository.findById(categoryId);
+//
+//        CategoryResponse categoryResponse = optional.map(CategoryResponse::new).orElseThrow();
+//
+//        return categoryResponse;
+    }
+
+    public void removeCategory(Long categoryId) {
+        categoryRepository.deleteById(categoryId);
     }
 }
