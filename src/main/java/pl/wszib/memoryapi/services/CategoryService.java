@@ -1,5 +1,6 @@
 package pl.wszib.memoryapi.services;
 
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import pl.wszib.memoryapi.data.entities.CategoryEntity;
 import pl.wszib.memoryapi.data.repositories.CategoryRepository;
@@ -8,6 +9,7 @@ import pl.wszib.memoryapi.web.models.CategoryResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -40,5 +42,17 @@ public class CategoryService {
         return categoryRepository.findAll()
                 .stream()
                 .map(CategoryResponse::new).toList();
+    }
+
+    public CategoryResponse getCategory(Long categoryId) {
+//        Optional<CategoryEntity> optional = categoryRepository.findById(categoryId);
+//
+//        CategoryResponse categoryResponse = optional.map(CategoryResponse::new).orElseThrow();
+//
+//        return categoryResponse;
+
+        return categoryRepository.findById(categoryId)
+                .map(CategoryResponse::new)
+                .orElseThrow(NotFoundException::new);
     }
 }
