@@ -6,6 +6,9 @@ import pl.wszib.memoryapi.data.repositories.CategoryRepository;
 import pl.wszib.memoryapi.web.models.CategoryRequest;
 import pl.wszib.memoryapi.web.models.CategoryResponse;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CategoryService {
     private final CategoryRepository categoryRepository;
@@ -20,5 +23,22 @@ public class CategoryService {
         CategoryEntity savedCategory = categoryRepository.save(categoryEntity);
 
         return new CategoryResponse(savedCategory);
+    }
+
+    public List<CategoryResponse> listCategories() {
+//        List<CategoryResponse> listCategories = new ArrayList<>();
+//
+//        for (CategoryEntity category : categoryRepository.findAll()) {
+//            listCategories.add(new CategoryResponse(category));
+//        }
+//
+//        return listCategories;
+//        return categoryRepository.findAll()
+//                .stream()
+//                .map(c -> new CategoryResponse(c)).toList();
+//
+        return categoryRepository.findAll()
+                .stream()
+                .map(CategoryResponse::new).toList();
     }
 }
