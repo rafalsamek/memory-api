@@ -30,13 +30,23 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<List<CategoryResponse>> listCategories() {
-        return ResponseEntity.status(HttpStatus.OK).body(categoryService.listCategories());
+        List<CategoryResponse> listCategory = categoryService.listCategories();
+
+        return ResponseEntity.ok(listCategory);
     }
 
     @GetMapping("{categoryId}")
     public ResponseEntity<CategoryResponse> getCategory(@PathVariable Long categoryId) {
         CategoryResponse category = categoryService.getCategory(categoryId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(category);
+        return ResponseEntity.ok(category);
+    }
+
+    @DeleteMapping("{categoryId}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId) {
+
+        categoryService.deleteCategory(categoryId);
+
+        return ResponseEntity.noContent().build();
     }
 }
