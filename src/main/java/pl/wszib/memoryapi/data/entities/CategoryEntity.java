@@ -3,6 +3,8 @@ package pl.wszib.memoryapi.data.entities;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "categories")
@@ -12,6 +14,9 @@ public class CategoryEntity {
     private Long id;
     private String name;
     private Date createdDate;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "category_id")
+    private Set<CardEntity> cards = new HashSet<>();
 
     public CategoryEntity(String name) {
         this.name = name;
@@ -35,5 +40,9 @@ public class CategoryEntity {
 
     public Date getCreatedDate() {
         return createdDate;
+    }
+
+    public void addCard(CardEntity card) {
+        this.cards.add(card);
     }
 }
