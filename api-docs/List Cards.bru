@@ -1,0 +1,18 @@
+meta {
+  name: List Cards
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://localhost:8080/categories/1/cards
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "term": "Pear",
+    "definition": "gruszka"
+  }
+}
