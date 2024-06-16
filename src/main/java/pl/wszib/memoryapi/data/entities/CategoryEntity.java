@@ -49,4 +49,8 @@ public class CategoryEntity {
     public Set<CardEntity> getCards() {
         return Set.copyOf(cards);
     }
+
+    public void removeCard(Long cardId) {
+        cards.removeIf(card -> card.getId().equals(cardId));
+    }
 }
