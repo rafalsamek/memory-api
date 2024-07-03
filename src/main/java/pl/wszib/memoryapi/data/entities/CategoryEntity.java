@@ -12,11 +12,8 @@ public class CategoryEntity {
     @Id
     @GeneratedValue
     private Long id;
-
     private String name;
-
     private Date createdDate;
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "category_id")
     private Set<CardEntity> cards = new HashSet<>();

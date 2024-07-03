@@ -1,6 +1,5 @@
 package pl.wszib.memoryapi.services;
 
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import pl.wszib.memoryapi.data.entities.CategoryEntity;
 import pl.wszib.memoryapi.data.repositories.CategoryRepository;
@@ -13,6 +12,7 @@ import java.util.Optional;
 
 @Service
 public class CategoryService {
+
     private final CategoryRepository categoryRepository;
 
     public CategoryService(CategoryRepository categoryRepository) {
@@ -27,36 +27,37 @@ public class CategoryService {
         return new CategoryResponse(savedCategory);
     }
 
-    public List<CategoryResponse> listCategories() {
-//        List<CategoryResponse> listCategories = new ArrayList<>();
+    public List<CategoryResponse> fetchAll() {
+//        List<CategoryEntity> categoryEntities = categoryRepository.findAll();
 //
-//        for (CategoryEntity category : categoryRepository.findAll()) {
-//            listCategories.add(new CategoryResponse(category));
+//        categoryEntities.stream().map(CategoryResponse::new).toList();
+//
+//        List<CategoryResponse> objects = new ArrayList<>();
+//        for (CategoryEntity ce : categoryEntities) {
+//            objects.add(new CategoryResponse(ce));
 //        }
-//
-//        return listCategories;
-//        return categoryRepository.findAll()
-//                .stream()
-//                .map(c -> new CategoryResponse(c)).toList();
-//
+
         return categoryRepository.findAll()
                 .stream()
-                .map(CategoryResponse::new).toList();
+                .map(CategoryResponse::new)
+                .toList();
     }
 
-    public CategoryResponse getCategory(Long categoryId) {
+    public CategoryResponse fetchCategory(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .map(CategoryResponse::new)
+                .orElseThrow(NotFoundException::new);
+
+//
+//
 //        Optional<CategoryEntity> optional = categoryRepository.findById(categoryId);
 //
 //        CategoryResponse categoryResponse = optional.map(CategoryResponse::new).orElseThrow();
 //
 //        return categoryResponse;
-
-        return categoryRepository.findById(categoryId)
-                .map(CategoryResponse::new)
-                .orElseThrow(NotFoundException::new);
     }
 
-    public void deleteCategory(Long categoryId) {
+    public void removeCategory(Long categoryId) {
         categoryRepository.deleteById(categoryId);
     }
 }

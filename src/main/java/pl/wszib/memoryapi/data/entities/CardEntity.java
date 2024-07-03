@@ -14,6 +14,7 @@ public class CardEntity {
     private String definition;
     private Date createdDate;
 
+
     public CardEntity(String term, String definition) {
         this.term = term;
         this.definition = definition;

@@ -1,10 +1,7 @@
 package pl.wszib.memoryapi.services;
 
-import jakarta.transaction.Transactional;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.transaction.annotation.Transactional;
 import pl.wszib.memoryapi.data.entities.CardEntity;
 import pl.wszib.memoryapi.data.entities.CategoryEntity;
 import pl.wszib.memoryapi.data.repositories.CardRepository;
@@ -17,20 +14,20 @@ import java.util.List;
 @Service
 public class CardService {
 
-    private final CategoryRepository categoryRepository;
     private final CardRepository cardRepository;
+    private final CategoryRepository categoryRepository;
 
-    public CardService(CategoryRepository categoryRepository, CardRepository cardRepository) {
-        this.categoryRepository = categoryRepository;
+    public CardService(CardRepository cardRepository, CategoryRepository categoryRepository) {
         this.cardRepository = cardRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Transactional
     public CardResponse createCard(Long categoryId, CardRequest request) {
-        CategoryEntity categoryEntity = categoryRepository.findById(categoryId).orElseThrow(NotFoundException::new);
+        CategoryEntity categoryEntity = categoryRepository.findById(categoryId)
+                .orElseThrow(NotFoundException::new);
 
         CardEntity cardEntity = new CardEntity(request.term(), request.definition());
-
         CardEntity savedCard = cardRepository.save(cardEntity);
 
         categoryEntity.addCard(savedCard);
@@ -39,9 +36,15 @@ public class CardService {
     }
 
     public List<CardResponse> fetchAll(Long categoryId) {
-        CategoryEntity category = categoryRepository.findById(categoryId).orElseThrow(NotFoundException::new);
+        CategoryEntity category = categoryRepository.findById(categoryId)
+                .orElseThrow(NotFoundException::new);
 
-        return category.getCards().stream().map(c -> new CardResponse(categoryId, c)).toList();
+        category.getName();
+
+        return category.getCards()
+                .stream()
+                .map(c -> new CardResponse(categoryId, c))
+                .toList();
     }
 
     @Transactional

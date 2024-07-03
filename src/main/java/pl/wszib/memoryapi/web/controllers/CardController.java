@@ -11,9 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("categories/{categoryId}/cards")
-@CrossOrigin
 public class CardController {
-
     private final CardService cardService;
 
     public CardController(CardService cardService) {
@@ -21,8 +19,9 @@ public class CardController {
     }
 
     @PostMapping
-    public ResponseEntity<CardResponse> createCard(@PathVariable Long categoryId, @RequestBody CardRequest request) {
-        CardResponse  createdCard = cardService.createCard(categoryId, request);
+    public ResponseEntity<CardResponse> createCard(@PathVariable Long categoryId,
+                                                   @RequestBody CardRequest request) {
+        CardResponse createdCard = cardService.createCard(categoryId, request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCard);
     }

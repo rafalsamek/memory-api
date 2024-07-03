@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("categories")
-@CrossOrigin
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -28,23 +27,22 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> listCategories() {
-        List<CategoryResponse> listCategory = categoryService.listCategories();
+    public ResponseEntity<List<CategoryResponse>> categoriesList() {
+        List<CategoryResponse> categories = categoryService.fetchAll();
 
-        return ResponseEntity.ok(listCategory);
+        return ResponseEntity.ok(categories);
     }
 
     @GetMapping("{categoryId}")
-    public ResponseEntity<CategoryResponse> getCategory(@PathVariable Long categoryId) {
-        CategoryResponse category = categoryService.getCategory(categoryId);
+    public ResponseEntity<CategoryResponse> singleCategory(@PathVariable Long categoryId) {
+        CategoryResponse category = categoryService.fetchCategory(categoryId);
 
         return ResponseEntity.ok(category);
     }
 
     @DeleteMapping("{categoryId}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId) {
-
-        categoryService.deleteCategory(categoryId);
+    public ResponseEntity<Void> removeCategory(@PathVariable Long categoryId) {
+        categoryService.removeCategory(categoryId);
 
         return ResponseEntity.noContent().build();
     }
